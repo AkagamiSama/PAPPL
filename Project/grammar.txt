@@ -1,0 +1,3 @@
+<S> ::= <A> <B> | <A> | <B>
+<A> ::= "Bonjour" | "Bonsoir"
+<B> ::= "Monsieur" | "Madame"

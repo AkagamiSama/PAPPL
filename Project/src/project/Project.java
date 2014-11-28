@@ -16,9 +16,9 @@ public class Project {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        Production a = new Production("prout ");
-        Production b = new Production("jambon ");
-        Production c = new Production("ta mère ");
+        Production a = new Production("pute ");
+        Production b = new Production("pute ");
+        Production c = new Production("pute ");
         
         Production B = new Production("B");
         Expression Be1 = new Expression(); 
@@ -49,5 +49,9 @@ public class Project {
         String test = g.generate();
         
         System.out.println(test);
+        
+        Parser pars = new Parser("grammar.txt");
+        
+        pars.grammarRead();
     }
 }
