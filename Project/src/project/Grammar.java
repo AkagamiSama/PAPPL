@@ -12,23 +12,23 @@ import java.util.LinkedList;
  */
 public class Grammar {
     
-    private LinkedList<Production> prods; //Pour la génération, on considère que
+    private Production prod; //Pour la génération, on considère que
                                           //le premier élément correspond au début (S)
     
     public Grammar(){
-        prods = new LinkedList<>();
+        prod = new Production();
     }
     
-    public void addProd(Production prod){
-        prods.add(prod);
+    public Grammar(Production prod){
+        this.prod = prod;
     }
     
-    public void removeProd(Production prod){
-        prods.remove(prod);
+    public void setProd(Production prod){
+        this.prod = prod;
     }
     
-    public LinkedList<Production> getProds(){
-        return prods;
+    public Production getProd(){
+        return prod;
     }
     
     public String generate(){
@@ -57,6 +57,23 @@ public class Grammar {
         Cela dit, c'est juste une idée. Si tu vois une meilleure solution hésite
         pas ^^
         */
+        sentence = ProcessProd(prod);
+        
         return sentence;
+    }
+    
+    String ProcessProd(Production p){
+        String result = new String();
+        
+        if (p.isTerm()){
+          result =  p.getMot();
+        }
+        else{
+            for (Production p1 : p.getRandomExpr().getMots()){
+                result += ProcessProd(p1);
+            }
+        }
+        
+        return result;
     }
 }

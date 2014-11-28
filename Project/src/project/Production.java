@@ -5,7 +5,7 @@
  */
 package project;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 /**
  *
  * @author akagami
@@ -13,22 +13,22 @@ import java.util.LinkedList;
 public class Production {
     
     private String mot; //Mot pouvant être terminal ou non-terminal
-    private LinkedList<Expression> expr; //Si le mot est terminal, cette liste
+    private ArrayList<Expression> expr; //Si le mot est terminal, cette liste
                                          //est vide
-    private LinkedList<Double> weights; //Poids pour chaque expression définissant
+    private ArrayList<Double> weights; //Poids pour chaque expression définissant
                                         //sa probabilité à être sélectionnée pour
                                         //le remplacement du mot non-terminal.
     
     public Production(){
         mot = "";
-        expr = new LinkedList<>();
-        weights = new LinkedList<>();
+        expr = new ArrayList<>();
+        weights = new ArrayList<>();
     }
     
     public Production(String txt){
         mot = txt;
-        expr = new LinkedList<>();
-        weights = new LinkedList<>();
+        expr = new ArrayList<>();
+        weights = new ArrayList<>();
     }
     
     public String getMot(){
@@ -54,16 +54,16 @@ public class Production {
         expr.clear();
     }
     
-    public LinkedList<Expression> getExpr(){
+    public ArrayList<Expression> getExpr(){
         return expr;
     }
     
-    public LinkedList<Double> getWeights(){
+    public ArrayList<Double> getWeights(){
         return weights;
     }
     
     public boolean isTerm(){
-        return (expr==null);
+        return (expr.size()==0);
     }
     
     public void halfWeight(int i){
@@ -79,7 +79,7 @@ public class Production {
         double random = Math.random()*totalWeight;
         for (int i = 0; i < expr.size(); i++){
             random -= weights.get(i);
-            if (random <= totalWeight){
+            if (random <= 0.0d){
                 indexRandom = i;
                 break;
             }
