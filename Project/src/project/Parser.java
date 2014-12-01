@@ -47,15 +47,14 @@ public class Parser {
             }
             while ((line = file.readLine()) != null) {
                 String spl = line.split("::=")[0];
-                if (null == this.findProd(spl.substring(1, spl.length() - 2))) {
-                    prods.add(new Production(spl.substring(1, spl.length() - 2)));
+                if (null == this.findProd(spl)) {
+                    prods.add(new Production(spl));
                 }
             }
             file.close();
         } catch (Exception e) {
             System.out.println("Incorrect file");
         }
-        System.out.println(prods.get(2).getMot());
     }
 
     public void grammarCompleteBNF() {
@@ -97,22 +96,24 @@ public class Parser {
                                     exp.addMot(findProd(s));
                                     break;
                                 } else {
-                                    if (this.findProd(s) == null) {
+                                    if (this.findProd("<"+s+"> ") == null) {
+                                        
                                         throw new InvalidFileException();
                                     }
-                                    exp.addMot(findProd(s));
+                                    exp.addMot(findProd("<"+s+"> "));
+                                    
                                     break;
                                 }
                         }
+                        this.findProd(line.split("::=")[0]).addExpr(exp);
                     }
                 }
             }
 
             file.close();
-        } catch (Exception e) {
-            System.out.println("Incorrect file");
+        } catch (IOException | InvalidFileException e) {
+            System.out.println("Incorrect file2");
         }
-        prods.get(0).getMot();//.getExpr().get(0).getMots().get(0).getMot();
     }
 
     public Grammar grammarReadBNF() {
@@ -120,7 +121,6 @@ public class Parser {
         this.grammarGetNonTerminalsBNF();
         this.grammarCompleteBNF();
 
-        //return (new Grammar(prods.get(0)));
-        return null;
+        return (new Grammar(prods.get(0)));
     }
 }

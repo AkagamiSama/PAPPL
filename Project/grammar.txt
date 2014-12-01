@@ -1,5 +1,8 @@
 BNF
-<S> ::= <A> <B> | <A> | <B>
-<A> ::= "Bonjour" | "Bonsoir"
-<A> ::= "Bonjour" | "Bonsoir"
-<B> ::= "Monsieur" | "Madame"
+<S> ::= <NP> <VP>
+<NP> ::= <Det> <N>
+<NP> ::= "I " | "she " | "he " | "Joe "
+<VP> ::= <V> <NP>
+<Det> ::= "a " | "the " | "my " | "his "
+<N> ::= "elephant " | "cat " | "jeans " | "suit "
+<V> ::= "kicked " | "followed " | "shot "
