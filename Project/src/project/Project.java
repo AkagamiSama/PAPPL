@@ -52,7 +52,9 @@ public class Project {
 //        
 //        //System.out.println(test);
 //        
-          MainGUI window = new MainGUI();
-          window.setVisible(true);
+        //Parser parser = new Parser("Grammar.txt");
+        //parser.grammarReadBNF().fileCreator("C:\\Users\\Benjamin\\Desktop\\Cours\\PAPPL\\text.txt");
+        MainGUI window = new MainGUI();
+        window.setVisible(true);
     }
 }

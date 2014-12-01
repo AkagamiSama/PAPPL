@@ -5,6 +5,9 @@
  */
 package project;
 
+import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  * Classe contenant la grammaire : le mot initial et ceux qui peuvent le remplacer.
  * @author akagami
@@ -67,5 +70,27 @@ public class Grammar {
         }
         
         return result;
+    }
+    /**
+     * Crée un fichier à l'emplacement fourni.
+     * @param location de type String : Donne le nom et l'emplacement du fichier à créer.
+     */
+    public void fileCreator(String location){
+        BufferedWriter file = null;
+        try {
+            file = new BufferedWriter(new FileWriter(location));
+            file.write(this.generate());
+        } catch (IOException ex) {
+            Logger.getLogger(Grammar.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (file != null) {
+                    file.flush();
+                    file.close();
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(Grammar.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 }
