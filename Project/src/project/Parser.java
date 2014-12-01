@@ -14,84 +14,112 @@ import java.util.StringTokenizer;
  * @author akagami
  */
 public class Parser {
-    
+
     private ArrayList<Production> prods;
     private String loc;
-    
-    public Parser(){
+
+    public Parser() {
         prods = new ArrayList<>();
     }
-    
-    public Parser(String localisation){
+
+    public Parser(String localisation) {
         prods = new ArrayList<>();
         loc = localisation;
     }
-    
-    public Production findProd(String mot){
-        for (Production p : prods){
-            if (mot.equals(p.getMot())){
+
+    public Production findProd(String mot) {
+        for (Production p : prods) {
+            if (mot.equals(p.getMot())) {
                 return p;
             }
         }
         return null;
     }
-    
-    public void grammarGetNonTerminalsBNF(){
+
+    public void grammarGetNonTerminalsBNF() {
         String line; //Servira à stocker la ligne en cours de traitement.
-        try{
+        try {
             BufferedReader file = new BufferedReader(new FileReader(loc));
             line = file.readLine();
-            
-            if (!"BNF".equals(line)){
+
+            if (!"BNF".equals(line)) {
                 throw new InvalidFileException();
             }
-            while ((line = file.readLine()) != null){
+            while ((line = file.readLine()) != null) {
                 String spl = line.split("::=")[0];
-                if (null == this.findProd(spl.substring(1, spl.length()-2))){
-                    prods.add(new Production(spl.substring(1, spl.length()-2)));
+                if (null == this.findProd(spl.substring(1, spl.length() - 2))) {
+                    prods.add(new Production(spl.substring(1, spl.length() - 2)));
                 }
             }
             file.close();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Incorrect file");
         }
         System.out.println(prods.get(2).getMot());
     }
-    
-    public void grammarCompleteBNF(){
+
+    public void grammarCompleteBNF() {
         String line; //Servira à stocker la ligne en cours de traitement.
-        try{
+        try {
             BufferedReader file = new BufferedReader(new FileReader(loc));
+            boolean terminal = true;
             String delimiteurs1 = "|";
             String delimiteurs2 = "><\"";
             line = file.readLine();
-            
-            if (!"BNF".equals(line)){
+
+            if (!"BNF".equals(line)) {
                 throw new InvalidFileException();
             }
-            while ((line = file.readLine()) != null){
+            while ((line = file.readLine()) != null) {
                 String spl = line.split("::=")[1];
-                StringTokenizer token1 = new StringTokenizer(spl, delimiteurs1, true);
-                while (token1.hasMoreTokens()){
+                StringTokenizer token1 = new StringTokenizer(spl, delimiteurs1);
+                while (token1.hasMoreTokens()) {
                     Expression exp = new Expression();
-                    StringTokenizer token2 = new StringTokenizer(token1.nextToken(),delimiteurs2);
+                    StringTokenizer token2 = new StringTokenizer(token1.nextToken(), delimiteurs2, true);
+                    while (token2.hasMoreTokens()) {
+                        String s = token2.nextToken();
+                        switch (s) {
+                            case "\"":
+                                terminal = true;
+                                break;
+                            case "<":
+                                terminal = false;
+                                break;
+                            case ">":
+                                break;
+                            case " ":
+                                break;
+                            default:
+                                if (terminal) {
+                                    if (this.findProd(s) == null) {
+                                        prods.add(new Production(s));
+                                    }
+                                    exp.addMot(findProd(s));
+                                    break;
+                                } else {
+                                    if (this.findProd(s) == null) {
+                                        throw new InvalidFileException();
+                                    }
+                                    exp.addMot(findProd(s));
+                                    break;
+                                }
+                        }
+                    }
                 }
             }
-            
-            
+
             file.close();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Incorrect file");
         }
+        prods.get(0).getMot();//.getExpr().get(0).getMots().get(0).getMot();
     }
-    
-    public Grammar grammarReadBNF(){
-        
+
+    public Grammar grammarReadBNF() {
+
         this.grammarGetNonTerminalsBNF();
         this.grammarCompleteBNF();
-        
+
         //return (new Grammar(prods.get(0)));
         return null;
     }

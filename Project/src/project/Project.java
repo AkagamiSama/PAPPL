@@ -48,7 +48,7 @@ public class Project {
         
         String test = g.generate();
         
-        System.out.println(test);
+        //System.out.println(test);
         
         Parser pars = new Parser("grammar.txt");
         
