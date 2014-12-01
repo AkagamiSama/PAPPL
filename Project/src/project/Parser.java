@@ -63,7 +63,8 @@ public class Parser {
         String line; //Servira à stocker la ligne en cours de traitement.
         try{
             BufferedReader file = new BufferedReader(new FileReader(loc));
-            String delimiteurs = "|><\"";
+            String delimiteurs1 = "|";
+            String delimiteurs2 = "><\"";
             line = file.readLine();
             
             if (!"BNF".equals(line)){
@@ -71,9 +72,10 @@ public class Parser {
             }
             while ((line = file.readLine()) != null){
                 String spl = line.split("::=")[1];
-                StringTokenizer token = new StringTokenizer(spl, delimiteurs, true);
-                while (token.hasMoreTokens()){
-                    
+                StringTokenizer token1 = new StringTokenizer(spl, delimiteurs1, true);
+                while (token1.hasMoreTokens()){
+                    Expression exp = new Expression();
+                    StringTokenizer token2 = new StringTokenizer(token1.nextToken(),delimiteurs2);
                 }
             }
             
