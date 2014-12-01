@@ -88,4 +88,13 @@ public class Production {
         return expr.get(indexRandom);
     }
     
+    public boolean findExpr(Expression ex){
+        for (Expression e : expr){
+            if (ex.equals(e)){
+                return true;
+            }
+        }
+        return false;
+    }
+    
 }

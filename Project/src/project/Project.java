@@ -52,6 +52,6 @@ public class Project {
         
         Parser pars = new Parser("grammar.txt");
         
-        pars.grammarRead();
+        pars.grammarReadBNF();
     }
 }
