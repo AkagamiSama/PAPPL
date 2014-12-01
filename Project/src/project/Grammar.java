@@ -5,64 +5,56 @@
  */
 package project;
 
-import java.util.LinkedList;
 /**
- *
+ * Classe contenant la grammaire : le mot initial et ceux qui peuvent le remplacer.
  * @author akagami
  */
 public class Grammar {
-    
-    private Production prod; //Pour la génération, on considère que
-                                          //le premier élément correspond au début (S)
-    
+    /**
+     * Le mot initial et ses remplaçants.
+     */
+    private Production prod;
+    /**
+     * Le constructeur par défaut, correspondant à une grammaire vide.
+     */
     public Grammar(){
         prod = new Production();
     }
-    
+    /**
+     * Le constructeur définissant la grammaire à partir d'une production existante.
+     * @param prod de type Production : Mot initial de la grammaire.
+     */
     public Grammar(Production prod){
         this.prod = prod;
     }
-    
+    /**
+     * Permet de set l'attribut prod.
+     * @param prod de type Production : Nouvelle valeur de l'attribut prod.
+     */
     public void setProd(Production prod){
         this.prod = prod;
     }
-    
+    /**
+     * Renvoie le pointeur vers l'attribut prod.
+     * @return Le pointeur de prod.
+     */
     public Production getProd(){
         return prod;
     }
-    
+    /**
+     * Génère un mot à partir de la grammaire.
+     * @return La phrase générée par la grammaire.
+     */
     public String generate(){
-        String sentence = "";
-        /*
-        J'ai un peu réfléchi (sisi, ça arrive) et je pense qu'ilvaut mieux faire
-        une nouvelle classe pour générer avec une grammaire en attribut parce que
-        si on veut faire de façon récursive, ce qui serait pas mal, on peut pas
-        juste faire une méthode ici.
-        L'idée serait de faire une nouvelle classe donc, avec un attribut Grammar,
-        un attribut String et un attribut LinkedList<Production> qui démarrerait
-        avec le premier élément de la liste prods de la Grammar.
-        Pour la génération, on modifiera cete liste et il faudra faire une méthode
-        qui testera si la liste est pleine de terminaux ou pas pour déterminer si
-        on doit continuer ou pas. Après il suffira de parcourir la liste dans l'ordre
-        et quand on tombe sur un mot non-terminal, on prend ce qui a avant, ce qui
-        a après et on assemble ça avec le mot transformé.
-        Schématiquement, pour S := AB; A := aBa ; B := b :
-        <S>
-        <A,B>
-        <a,B,a,B>
-        <a,b,a,B>
-        <a,b,a,b>
-        Et après on met tous dans la String.
-        
-        Cela dit, c'est juste une idée. Si tu vois une meilleure solution hésite
-        pas ^^
-        */
-        sentence = ProcessProd(prod);
-        
-        return sentence;
+        return ProcessProd(prod);
     }
-    
-    String ProcessProd(Production p){
+    /**
+     * Permet de traiter une production en renvoyant un String si le mot est terminal
+     * ou en appliquant cette méthode à une expression suivant le mot si il est non terminal.
+     * @param p : La production à traiter.
+     * @return Le mot terminal.
+     */
+    public String ProcessProd(Production p){
         String result = new String();
         
         if (p.isTerm()){

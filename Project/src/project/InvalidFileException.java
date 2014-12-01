@@ -6,7 +6,7 @@
 package project;
 
 /**
- *
+ * Exception levée quand un fichier de grammaire n'est pas au format attendu.
  * @author akagami
  */
 public class InvalidFileException extends Exception {
