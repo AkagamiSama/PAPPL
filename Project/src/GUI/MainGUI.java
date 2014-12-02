@@ -198,11 +198,12 @@ public class MainGUI extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         if (!jTextField2.getText().equals("Fichier de grammaire") && !jTextField3.getText().equals("Dossier de génération") && (Integer)jSpinner1.getValue() > 0){
-            Parser parser = new Parser(jTextField2.getText());
+            Parser parser = new Parser(jTextField2.getText()+"/");
             for (int i = 1; i <= (Integer)jSpinner1.getValue();i++){
-                System.out.println(jTextField3.getText()+jTextField4.getText()+"_"+i+".txt");
+                System.out.println(jTextField3.getText()+"/"+jTextField4.getText()+"_"+i+".txt");
+                //Je vois pas l'interet de cette ligne, ça nous donne même pas ce qui va être dans le fichier...
                 System.out.println(parser.grammarReadBNF().generate());
-                parser.grammarReadBNF().fileCreator(jTextField3.getText()+"\\"+jTextField4.getText()+"_"+i+".txt");
+                parser.grammarReadBNF().fileCreator(jTextField3.getText()+"/"+jTextField4.getText()+"_"+i+".txt");
             }
         }
     }//GEN-LAST:event_jButton3ActionPerformed

@@ -140,7 +140,7 @@
     <Component class="javax.swing.JSpinner" name="jSpinner1">
       <Properties>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Curseur par d&#xe9;faut"/>
+          <Color id="Default Cursor"/>
         </Property>
         <Property name="verifyInputWhenFocusTarget" type="boolean" value="false"/>
       </Properties>

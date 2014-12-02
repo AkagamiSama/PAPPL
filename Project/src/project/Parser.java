@@ -74,7 +74,7 @@ public class Parser {
                     throw new InvalidFileException();
                 }
                 while ((line = file.readLine()) != null) {
-                    String spl = line.split("::=")[0];
+                    String spl = line.split("::=")[0].trim();
                     if (null == this.findProd(spl)) {
                         prods.add(new Production(spl));
                     }
@@ -127,17 +127,17 @@ public class Parser {
                                         exp.addMot(findProd(s));
                                         break;
                                     } else {
-                                        if (this.findProd("<"+s+"> ") == null) {
+                                        if (this.findProd("<"+s+">") == null) {
                                             
                                             throw new InvalidFileException();
                                         }
-                                        exp.addMot(findProd("<"+s+"> "));
+                                        exp.addMot(findProd("<"+s+">"));
                                         
                                         break;
                                     }
                             }
-                            if (!this.findProd(line.split("::=")[0]).findExpr(exp)){
-                                this.findProd(line.split("::=")[0]).addExpr(exp);
+                            if (!this.findProd(line.split("::=")[0].trim()).findExpr(exp)){
+                                this.findProd(line.split("::=")[0].trim()).addExpr(exp);
                             }
                         }
                     }
