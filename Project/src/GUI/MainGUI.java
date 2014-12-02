@@ -172,7 +172,7 @@ public class MainGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        JFileChooser chooser = new JFileChooser("\\");
+        JFileChooser chooser = new JFileChooser("/");
         int returnVal = chooser.showOpenDialog(this);
         if(returnVal == JFileChooser.APPROVE_OPTION) {
             jTextField2.setText(chooser.getSelectedFile().getPath());
@@ -184,7 +184,7 @@ public class MainGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        JFileChooser chooser = new JFileChooser("\\");
+        JFileChooser chooser = new JFileChooser("/");
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         int returnVal = chooser.showOpenDialog(this);
         if(returnVal == JFileChooser.APPROVE_OPTION) {
@@ -200,7 +200,7 @@ public class MainGUI extends javax.swing.JFrame {
         if (!jTextField2.getText().equals("Fichier de grammaire") && !jTextField3.getText().equals("Dossier de génération") && (Integer)jSpinner1.getValue() > 0){
             Parser parser = new Parser(jTextField2.getText());
             for (int i = 1; i <= (Integer)jSpinner1.getValue();i++){
-                parser.grammarReadBNF().fileCreator(jTextField3.getText()+"\\"+jTextField4.getText()+"_"+i+".txt");
+                parser.grammarReadBNF().fileCreator(jTextField3.getText()+"/"+jTextField4.getText()+"_"+i+".txt");
             }
         }
     }//GEN-LAST:event_jButton3ActionPerformed
