@@ -81,7 +81,7 @@ public class Parser {
                 }
             }
         } catch (IOException | InvalidFileException e) {
-            System.out.println("Incorrect file");
+            System.out.println("BNF file should begin with \"BNF\".");
         }
     }
     /**
@@ -159,4 +159,27 @@ public class Parser {
 
         return (new Grammar(prods.get(0)));
     }
+    
+    
+    //Méthodes pour l'EBNF. En construction.
+    public void grammarGetNonTerminalsEBNF() {
+        String line; //Servira à stocker la ligne en cours de traitement.
+        try {
+            try (BufferedReader file = new BufferedReader(new FileReader(loc))) {
+                line = file.readLine();
+                
+                if (!"EBNF".equals(line)) {
+                    throw new InvalidFileException();
+                }
+                while ((line = file.readLine()) != null) {
+                    String spl = line.split("(?<!\\\\)=")[0].trim();
+                    if (null == this.findProd(spl)) {
+                        prods.add(new Production(spl));
+                    }
+                }
+            }
+        } catch (IOException | InvalidFileException e) {
+            System.out.println("EBNF file should start with \"EBNF\"");
+        }
+    }    
 }

@@ -49,7 +49,9 @@ public class Grammar {
      * @return La phrase générée par la grammaire.
      */
     public String generate(){
-        return ProcessProd(prod);
+        String result = this.ProcessProd(prod);
+        this.resetWeights();
+        return result;
     }
     /**
      * Permet de traiter une production en renvoyant un String si le mot est terminal
@@ -92,5 +94,28 @@ public class Grammar {
                 Logger.getLogger(Grammar.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+    
+    public void resetProdWeights(Production p){
+        boolean one = true;
+        for (Double d : p.getWeights()){
+            one = (one && d == 1.00d);
+        }
+        if(one){
+            
+        }else{
+            for(int i = 0; i < p.getWeights().size(); i++){
+                p.getWeights().set(i,1.00d);
+                }
+            for(Expression e : p.getExpr()){
+                for(Production p1 : e.getMots()){
+                    resetProdWeights(p1);
+                }
+            }
+        }
+    }
+    
+    public void resetWeights(){
+        this.resetProdWeights(prod);
     }
 }
