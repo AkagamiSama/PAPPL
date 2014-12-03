@@ -74,7 +74,7 @@ public class Parser {
                     throw new InvalidFileException();
                 }
                 while ((line = file.readLine()) != null) {
-                    String spl = line.split("::=")[0].trim();
+                    String spl = line.split("(?<!\\\\)::=")[0].trim();
                     if (null == this.findProd(spl)) {
                         prods.add(new Production(spl));
                     }
@@ -93,57 +93,45 @@ public class Parser {
         try {
             try (BufferedReader file = new BufferedReader(new FileReader(loc))) {
                 boolean terminal = true;
-                String delimiteurs1 = "|";
-                String delimiteurs2 = "><\"";
-                line = file.readLine();
+                String delimiteursLigne = "(?<!\\\\)::=";
+                String delimiteursProduction = "(?<!\\\\)\\|";
+                String delimiteursWords = "(\\s+(?=(((\\\\\")|[^\"])*((?<!\\\\)\")(\\\\\"|[^\"])*((?<!\\\\)\"))*((\\\\\")|[^\"])*$)(?=(((\\\\<)|(\\\\>)|[^<>])*((?<!\\\\)<)((\\\\<)|(\\\\>)|[^<>])*((?<!\\\\)>))*((\\\\<)|(\\\\>)|[^<>])*$)|((?<!\\\\)\"))";
+                file.readLine(); //lit la ligne BNF qui ne doit pas être processée dans la boucle
                 
-                if (!"BNF".equals(line)) {
-                    throw new InvalidFileException();
-                }
+                
                 while ((line = file.readLine()) != null) {
-                    String spl = line.split("::=")[1];
-                    StringTokenizer token1 = new StringTokenizer(spl, delimiteurs1);
-                    while (token1.hasMoreTokens()) {
+                    String spl = line.split(delimiteursLigne)[1];
+                    String[]  productions = spl.split(delimiteursProduction);
+                    for (String prodString : productions) {
                         Expression exp = new Expression();
-                        StringTokenizer token2 = new StringTokenizer(token1.nextToken(), delimiteurs2, true);
-                        while (token2.hasMoreTokens()) {
-                            String s = token2.nextToken();
-                            switch (s) {
-                                case "\"":
-                                    terminal = true;
-                                    break;
-                                case "<":
-                                    terminal = false;
-                                    break;
-                                case ">":
-                                    break;
-                                case " ":
-                                    break;
-                                default:
-                                    if (terminal) {
-                                        if (this.findProd(s) == null) {
-                                            prods.add(new Production(s));
-                                        }
-                                        exp.addMot(findProd(s));
-                                        break;
-                                    } else {
-                                        if (this.findProd("<"+s+">") == null) {
-                                            
-                                            throw new InvalidFileException();
-                                        }
-                                        exp.addMot(findProd("<"+s+">"));
-                                        
-                                        break;
-                                    }
+                        String[] words = prodString.split(delimiteursWords);
+                        for (String word : words) {
+                            terminal = (!word.endsWith(">")|word.endsWith("\\>"));
+                            word = word.replaceAll("\\\\<", "<");
+                            word = word.replaceAll("\\\\>", ">");
+                            word = word.replaceAll("\\\\\"", "\"");
+                            word = word.replaceAll("\\\\::=", "::=");
+                            word = word.replaceAll("\\\\\\|", "|");
+                            if (terminal) {
+                                if (this.findProd(word) == null) {
+                                    prods.add(new Production(word));
+                                }
+                                exp.addMot(findProd(word));
+                            }else
+                            {
+                                if (this.findProd(word) == null) {            
+                                    throw new InvalidFileException();
+                                }
+                                exp.addMot(findProd(word));
                             }
-                            if (!this.findProd(line.split("::=")[0].trim()).findExpr(exp)){
-                                this.findProd(line.split("::=")[0].trim()).addExpr(exp);
-                            }
+                        }
+                        if (!this.findProd(line.split(delimiteursLigne)[0].trim()).findExpr(exp)){
+                                this.findProd(line.split(delimiteursLigne)[0].trim()).addExpr(exp);
                         }
                     }
                 }
             }
-        } catch (IOException | InvalidFileException e) {
+        }catch (IOException | InvalidFileException e) {
             System.out.println("Incorrect file2");
         }
     }
