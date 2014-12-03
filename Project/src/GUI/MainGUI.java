@@ -6,6 +6,7 @@
 package GUI;
 
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import project.*;
 
 /**
@@ -201,6 +202,7 @@ public class MainGUI extends javax.swing.JFrame {
             for (int i = 1; i <= (Integer)jSpinner1.getValue();i++){
                 parser.grammarReadBNF().fileCreator(jTextField3.getText()+"/"+jTextField4.getText()+"_"+i+".txt");
             }
+            JOptionPane.showMessageDialog(jFrame1, "Génération terminée");
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
