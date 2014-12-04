@@ -136,13 +136,16 @@ public class MainGUI extends javax.swing.JFrame {
                                     .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGap(18, 18, 18)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel6)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextField3)
                                 .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel5)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jButton4))))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel6)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel5)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(jButton4)))
+                                    .addGap(0, 0, Short.MAX_VALUE))))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -208,8 +211,9 @@ public class MainGUI extends javax.swing.JFrame {
         }else{
             Parser parser = new Parser(jTextField2.getText());
             try{
+                Grammar gram = parser.grammarReadBNF();
                 for (int i = 1; i <= (Integer)jSpinner1.getValue();i++){
-                    parser.grammarReadBNF().fileCreator(jTextField3.getText()+"/"+jTextField4.getText()+"_"+i+".txt");
+                    gram.fileCreator(jTextField3.getText()+"/"+jTextField4.getText()+"_"+i+".txt");
                 }
                 JOptionPane.showMessageDialog(jFrame1, "Génération terminée");
             } catch (InvalidFileException e) {
