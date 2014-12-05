@@ -1,13 +1,17 @@
 BNF
 <S> ::= <s> "."
-<s> ::= <NP> <VP> | <s> <TR> <s> | <NP> <V2>
+<s> ::= <s> <TR> <s> | <Sujet> <Verbe> <Complement> | <Sujet> <VerbeAvecParticule>
 <TR> ::= "when " | "as " | "before " | "after " | "therefore " | "because "
-<NP> ::= <Det> <N>
-<NP> ::= "I " | "Magdalene " | "Mickael " | "Joe " | "you " | "he " | "she "
-<VP> ::= <V> <NP>
-<Det> ::= "her " | "the " | "my " | "his " | "your "
-<N> ::= "elephant " | "cat " | "jeans " | "suit " | "pet " | "house " | "person " | "chair "
-<V> ::= "kicked " | "followed " | "ate " | "shot " | "played with " | "studied "
-<PL> ::= "in the head " | "in the leg "
-<V2> ::= "set " <Det> <N> "on fire " | "burned " <Det> <N> "to the ground "
-<V2> ::= "shot " <Det> <N> <PL> | "wrote "  <Det> <N> "a letter "
+<Sujet> ::= "I " | "you " | "he " | "she " | "we " | "they " |<N>
+<N> ::= "Magdalene " | "Mickael " | "Joe " | <Article1> <n> | <Article2> <n2>
+<Article1> ::= "a " | "the " | "my " | "your " | "his " | "her " | "our " | "their "
+<Article2> ::= "an " | <Article1>
+<n> ::= "cat " | "jeans " | "suit " | "pet " | "house " | "chair " | <n2>
+<n2> ::= "elephant " | 
+<Verbe> ::= "kicked " | "followed " | "ate " | "played with " | "studied "
+<VerbeAvecParticule> ::= "shot " <Complement> "in " <PartieDuCorps>
+<VerbeAvecParticule> ::= "kicked " <Complement> "in " <PartieDuCorps>
+<VerbeAvecParticule> ::= "burned " <Complement> <Brule>
+<Brule> ::= "to the ground " | "to ashes "
+<PartieDuCorps> ::= "the head " | "the leg " | "the arm " | "the chest "
+<Complement> ::= <N> | "me " | "you " | "him " | "her " | "us " | "them "
