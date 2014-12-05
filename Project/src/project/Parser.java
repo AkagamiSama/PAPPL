@@ -99,7 +99,6 @@ public class Parser {
                 String delimiteursWords = "(\\s+(?=(((\\\\\")|[^\"])*((?<!\\\\)\")(\\\\\"|[^\"])*((?<!\\\\)\"))*((\\\\\")|[^\"])*$)(?=(((\\\\<)|(\\\\>)|[^<>])*((?<!\\\\)<)((\\\\<)|(\\\\>)|[^<>])*((?<!\\\\)>))*((\\\\<)|(\\\\>)|[^<>])*$)|((?<!\\\\)\"))";
                 file.readLine(); //lit la ligne BNF qui ne doit pas être processée dans la boucle
                 
-                
                 while ((line = file.readLine()) != null) {
                     String spl = line.split(delimiteursLigne)[1];
                     String[]  productions = spl.split(delimiteursProduction);
