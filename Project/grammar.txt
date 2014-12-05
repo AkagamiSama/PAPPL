@@ -1,5 +1,6 @@
 BNF
-<S> ::= <NP> <VP>
+<S> ::= <NP> <VP> | <S> <TR> <S>
+<TR> ::= "when " | "as " | "before "
 <NP> ::= <Det> <N>
 <NP> ::= "I " | "she " | "he " | "Joe "
 <VP> ::= <V> <NP>

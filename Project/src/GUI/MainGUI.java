@@ -136,13 +136,16 @@ public class MainGUI extends javax.swing.JFrame {
                                     .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGap(18, 18, 18)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel6)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextField3)
                                 .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel5)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jButton4))))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel6)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel5)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(jButton4)))
+                                    .addGap(0, 0, Short.MAX_VALUE))))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -197,12 +200,25 @@ public class MainGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        if (!jTextField2.getText().equals("Fichier de grammaire") && !jTextField3.getText().equals("Dossier de génération") && (Integer)jSpinner1.getValue() > 0){
+        if (jTextField2.getText().equals("Fichier de grammaire")){
+            JOptionPane.showMessageDialog(jFrame1, "Vous n'avez pas choisi de fichier","Erreur de fichier",JOptionPane.ERROR_MESSAGE);
+        }
+        else if (jTextField3.getText().equals("Dossier de génération")){
+            JOptionPane.showMessageDialog(jFrame1, "Vous n'avez pas choisi de dossier de destination","Erreur de dossier",JOptionPane.ERROR_MESSAGE);
+        }
+        else if ((Integer)jSpinner1.getValue() <= 0){
+            JOptionPane.showMessageDialog(jFrame1, "Vous n'avez pas choisi de nombre de fichier à générer","Erreur de quantité",JOptionPane.ERROR_MESSAGE);
+        }else{
             Parser parser = new Parser(jTextField2.getText());
-            for (int i = 1; i <= (Integer)jSpinner1.getValue();i++){
-                parser.grammarReadBNF().fileCreator(jTextField3.getText()+"/"+jTextField4.getText()+"_"+i+".txt");
+            try{
+                Grammar gram = parser.grammarReadBNF();
+                for (int i = 1; i <= (Integer)jSpinner1.getValue();i++){
+                    gram.fileCreator(jTextField3.getText()+"/"+jTextField4.getText()+"_"+i+".txt");
+                }
+                JOptionPane.showMessageDialog(jFrame1, "Génération terminée");
+            } catch (InvalidFileException e) {
+                JOptionPane.showMessageDialog(jFrame1, "Le fichier fourni est invalide","Erreur de fichier",JOptionPane.ERROR_MESSAGE);
             }
-            JOptionPane.showMessageDialog(jFrame1, "Génération terminée");
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 

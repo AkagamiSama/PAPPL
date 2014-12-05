@@ -7,7 +7,6 @@ package project;
 
 import java.util.ArrayList;
 import java.io.*;
-import java.util.StringTokenizer;
 
 /**
  * Classe représentant le parser de fichier permettant de lire le fichier de grammaire
@@ -63,8 +62,9 @@ public class Parser {
     /**
      * Crée et ajoute tous les mots non-terminaux à la liste des Productions
      * à partir du fichier de grammaire.
+     * @throws project.InvalidFileException Renvoie une exception si le fichier fourni est invalide.
      */
-    public void grammarGetNonTerminalsBNF() {
+    public void grammarGetNonTerminalsBNF() throws InvalidFileException {
         String line; //Servira à stocker la ligne en cours de traitement.
         try {
             try (BufferedReader file = new BufferedReader(new FileReader(loc))) {
@@ -80,24 +80,26 @@ public class Parser {
                     }
                 }
             }
-        } catch (IOException | InvalidFileException e) {
-            System.out.println("BNF file should begin with \"BNF\".");
+        } catch (IOException e) {
+            System.out.println(e.getLocalizedMessage());
         }
     }
     /**
      * Crée les mots non-terminaux et ajoute les dépendances entre les mots à partir
      * du fichier de grammaire.
+     * @throws project.InvalidFileException Renvoie une exception si le fichier fourni est invalide.
      */
-    public void grammarCompleteBNF() {
+    public void grammarCompleteBNF() throws InvalidFileException {
         String line; //Servira à stocker la ligne en cours de traitement.
         try {
             try (BufferedReader file = new BufferedReader(new FileReader(loc))) {
+
                 boolean terminal = true;
                 String delimiteursLigne = "::=(?=(((\\\\\")|[^\"])*((?<!\\\\)\")(\\\\\"|[^\"])*((?<!\\\\)\"))*((\\\\\")|[^\"])*$)(?=(((\\\\<)|(\\\\>)|[^<>])*((?<!\\\\)<)((\\\\<)|(\\\\>)|[^<>])*((?<!\\\\)>))*((\\\\<)|(\\\\>)|[^<>])*$)";
                 String delimiteursProduction = "\\|(?=(((\\\\\")|[^\"])*((?<!\\\\)\")(\\\\\"|[^\"])*((?<!\\\\)\"))*((\\\\\")|[^\"])*$)(?=(((\\\\<)|(\\\\>)|[^<>])*((?<!\\\\)<)((\\\\<)|(\\\\>)|[^<>])*((?<!\\\\)>))*((\\\\<)|(\\\\>)|[^<>])*$)";
+
                 String delimiteursWords = "(\\s+(?=(((\\\\\")|[^\"])*((?<!\\\\)\")(\\\\\"|[^\"])*((?<!\\\\)\"))*((\\\\\")|[^\"])*$)(?=(((\\\\<)|(\\\\>)|[^<>])*((?<!\\\\)<)((\\\\<)|(\\\\>)|[^<>])*((?<!\\\\)>))*((\\\\<)|(\\\\>)|[^<>])*$)|((?<!\\\\)\"))";
                 file.readLine(); //lit la ligne BNF qui ne doit pas être processée dans la boucle
-                
                 
                 while ((line = file.readLine()) != null) {
                     String spl = line.split(delimiteursLigne)[1];
@@ -129,16 +131,17 @@ public class Parser {
                     }
                 }
             }
-        }catch (IOException | InvalidFileException e) {
-            System.out.println("Incorrect file2");
+        }catch (IOException e) {
+            System.out.println(e.getLocalizedMessage());
         }
     }
     /**
      * Traite le fichier de grammaire et renvoie une instance de la classe Grammar
      * correspondante.
      * @return La grammaire correspondante au fichier.
+     * @throws project.InvalidFileException Renvoie une exception si le fichier fourni est invalide.
      */
-    public Grammar grammarReadBNF() {
+    public Grammar grammarReadBNF() throws InvalidFileException {
 
         this.grammarGetNonTerminalsBNF();
         this.grammarCompleteBNF();
