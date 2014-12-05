@@ -1,9 +1,13 @@
 BNF
-<S> ::= <NP> <VP> | <S> <TR> <S>
-<TR> ::= "when " | "as " | "before "
+<S> ::= <s> "."
+<s> ::= <NP> <VP> | <s> <TR> <s> | <NP> <V2>
+<TR> ::= "when " | "as " | "before " | "after " | "therefore " | "because "
 <NP> ::= <Det> <N>
-<NP> ::= "I " | "she " | "he " | "Joe "
+<NP> ::= "I " | "Magdalene " | "Mickael " | "Joe " | "you " | "he " | "she "
 <VP> ::= <V> <NP>
-<Det> ::= "a " | "the " | "my " | "his "
-<N> ::= "elephant " | "cat " | "jeans " | "suit "
-<V> ::= "kicked " | "followed " | "shot "
+<Det> ::= "her " | "the " | "my " | "his " | "your "
+<N> ::= "elephant " | "cat " | "jeans " | "suit " | "pet " | "house " | "person " | "chair "
+<V> ::= "kicked " | "followed " | "ate " | "shot " | "played with " | "studied "
+<PL> ::= "in the head " | "in the leg "
+<V2> ::= "set " <Det> <N> "on fire " | "burned " <Det> <N> "to the ground "
+<V2> ::= "shot " <Det> <N> <PL> | "wrote "  <Det> <N> "a letter "
