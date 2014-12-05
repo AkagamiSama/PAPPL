@@ -93,8 +93,8 @@ public class Parser {
         try {
             try (BufferedReader file = new BufferedReader(new FileReader(loc))) {
                 boolean terminal = true;
-                String delimiteursLigne = "(?<!\\\\)::=";
-                String delimiteursProduction = "(?<!\\\\)\\|";
+                String delimiteursLigne = "::=(?=(((\\\\\")|[^\"])*((?<!\\\\)\")(\\\\\"|[^\"])*((?<!\\\\)\"))*((\\\\\")|[^\"])*$)(?=(((\\\\<)|(\\\\>)|[^<>])*((?<!\\\\)<)((\\\\<)|(\\\\>)|[^<>])*((?<!\\\\)>))*((\\\\<)|(\\\\>)|[^<>])*$)";
+                String delimiteursProduction = "\\|(?=(((\\\\\")|[^\"])*((?<!\\\\)\")(\\\\\"|[^\"])*((?<!\\\\)\"))*((\\\\\")|[^\"])*$)(?=(((\\\\<)|(\\\\>)|[^<>])*((?<!\\\\)<)((\\\\<)|(\\\\>)|[^<>])*((?<!\\\\)>))*((\\\\<)|(\\\\>)|[^<>])*$)";
                 String delimiteursWords = "(\\s+(?=(((\\\\\")|[^\"])*((?<!\\\\)\")(\\\\\"|[^\"])*((?<!\\\\)\"))*((\\\\\")|[^\"])*$)(?=(((\\\\<)|(\\\\>)|[^<>])*((?<!\\\\)<)((\\\\<)|(\\\\>)|[^<>])*((?<!\\\\)>))*((\\\\<)|(\\\\>)|[^<>])*$)|((?<!\\\\)\"))";
                 file.readLine(); //lit la ligne BNF qui ne doit pas être processée dans la boucle
                 
@@ -110,8 +110,6 @@ public class Parser {
                             word = word.replaceAll("\\\\<", "<");
                             word = word.replaceAll("\\\\>", ">");
                             word = word.replaceAll("\\\\\"", "\"");
-                            word = word.replaceAll("\\\\::=", "::=");
-                            word = word.replaceAll("\\\\\\|", "|");
                             if (terminal) {
                                 if (this.findProd(word) == null) {
                                     prods.add(new Production(word));
