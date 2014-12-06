@@ -74,6 +74,7 @@ public class Parser {
                     throw new InvalidFileException();
                 }
                 while ((line = file.readLine()) != null) {
+                    System.out.println(line);
                     String spl = line.split("(?<!\\\\)::=")[0].trim();
                     if (null == this.findProd(spl)) {
                         prods.add(new Production(spl));
@@ -94,7 +95,7 @@ public class Parser {
         try {
             try (BufferedReader file = new BufferedReader(new FileReader(loc))) {
 
-                boolean terminal = true;
+                boolean terminal;
                 String delimiteursLigne = "::=(?=(((\\\\\")|[^\"])*((?<!\\\\)\")(\\\\\"|[^\"])*((?<!\\\\)\"))*((\\\\\")|[^\"])*$)(?=(((\\\\<)|(\\\\>)|[^<>])*((?<!\\\\)<)((\\\\<)|(\\\\>)|[^<>])*((?<!\\\\)>))*((\\\\<)|(\\\\>)|[^<>])*$)";
                 String delimiteursProduction = "\\|(?=(((\\\\\")|[^\"])*((?<!\\\\)\")(\\\\\"|[^\"])*((?<!\\\\)\"))*((\\\\\")|[^\"])*$)(?=(((\\\\<)|(\\\\>)|[^<>])*((?<!\\\\)<)((\\\\<)|(\\\\>)|[^<>])*((?<!\\\\)>))*((\\\\<)|(\\\\>)|[^<>])*$)";
 
@@ -102,31 +103,35 @@ public class Parser {
                 file.readLine(); //lit la ligne BNF qui ne doit pas être processée dans la boucle
                 
                 while ((line = file.readLine()) != null) {
-                    String spl = line.split(delimiteursLigne)[1];
-                    String[]  productions = spl.split(delimiteursProduction);
-                    for (String prodString : productions) {
-                        Expression exp = new Expression();
-                        String[] words = prodString.split(delimiteursWords);
-                        for (String word : words) {
-                            terminal = (!word.endsWith(">")|word.endsWith("\\>"));
-                            word = word.replaceAll("\\\\<", "<");
-                            word = word.replaceAll("\\\\>", ">");
-                            word = word.replaceAll("\\\\\"", "\"");
-                            if (terminal) {
-                                if (this.findProd(word) == null) {
-                                    prods.add(new Production(word));
+                    if (line.split(delimiteursLigne).length > 1){
+                    //Permet de gérer les lignes vides
+                    //Utile si on veut que le fichier de grammaire ressemble à quelque chose
+                        String spl = line.split(delimiteursLigne)[1];
+                        String[]  productions = spl.split(delimiteursProduction);
+                        for (String prodString : productions) {
+                            Expression exp = new Expression();
+                            String[] words = prodString.split(delimiteursWords);
+                            for (String word : words) {
+                                terminal = (!word.endsWith(">")|word.endsWith("\\>"));
+                                word = word.replaceAll("\\\\<", "<");
+                                word = word.replaceAll("\\\\>", ">");
+                                word = word.replaceAll("\\\\\"", "\"");
+                                if (terminal) {
+                                    if (this.findProd(word) == null) {
+                                        prods.add(new Production(word));
+                                    }
+                                    exp.addMot(findProd(word));
+                                }else
+                                {
+                                    if (this.findProd(word) == null) {            
+                                        throw new InvalidFileException();
+                                    }
+                                    exp.addMot(findProd(word));
                                 }
-                                exp.addMot(findProd(word));
-                            }else
-                            {
-                                if (this.findProd(word) == null) {            
-                                    throw new InvalidFileException();
-                                }
-                                exp.addMot(findProd(word));
                             }
-                        }
-                        if (!this.findProd(line.split(delimiteursLigne)[0].trim()).findExpr(exp)){
-                                this.findProd(line.split(delimiteursLigne)[0].trim()).addExpr(exp);
+                            if (!this.findProd(line.split(delimiteursLigne)[0].trim()).findExpr(exp)){
+                                    this.findProd(line.split(delimiteursLigne)[0].trim()).addExpr(exp);
+                            }
                         }
                     }
                 }

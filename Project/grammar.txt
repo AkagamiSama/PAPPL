@@ -1,27 +1,45 @@
 BNF
 <S> ::= <s> "."
+
 <s> ::= <s> <TR> <s> | <Sujet> <Verbe> <Complement> | <Sujet> <VerbeAvecParticule>
-<TR> ::= "when " | "as " | "before " | "after " | "therefore " | "because "
-<Sujet> ::= <PronomSujet> | <NP> | <NC>
-<PronomSujet> ::= "I " | "you " | "he " | "she " | "we " | "they "
-<NP> ::= "Magdalene " | "Mickael " | "Joe "
-<NC> ::= <ArticlesConsonne> <AdjectifsConsonne> <Noms> | <ArticlesVoyelle> <AdjectifsVoyelle> <Noms>
-<NC> ::= <ArticlesConsonne>  <NomsConsonne> | <ArticlesVoyelle>  <NomsVoyelle>
-<NC> ::= <ArticlesGen> <Adjectifs> <Noms> | <ArticlesGen> <Noms>
-<ArticlesGen> ::= "the " | "my " | "your " | "his " | "her " | "our " | "their "
-<ArticlesConsonne> ::= "a " | <ArticlesGen>
-<ArticlesVoyelle> ::= "an " | <ArticlesGen>
-<Noms> ::= <NomsVoyelle> | <NomsConsonne>
-<NomsConsonne> ::= "cat " | "jeans " | "suit " | "pet " | "house " | "chair "
-<NomsVoyelle> ::= "elephant "
-<Adjectifs> ::= <AdjectifsConsonne> | <AdjectifsVoyelle>
-<AdjectifsConsonne> ::= "wonderful "| "big " | "small " | "boring " | "weird "
-<AdjectifsVoyelle> ::= "ugly " | "angry "
-<Verbe> ::= "kicked " | "followed " | "ate " | "played with " | "studied " | "burned " | "kicked " | "shot "
-<VerbeAvecParticule> ::= "shot " <Complement> "in " <PartieDuCorps>
-<VerbeAvecParticule> ::= "kicked " <Complement> "in " <PartieDuCorps>
-<VerbeAvecParticule> ::= "burned " <Complement> <Brule>
-<Brule> ::= "to the ground " | "to ashes "
-<PartieDuCorps> ::= "the head " | "the leg " | "the arm " | "the chest "
-<Complement> ::= <NC> | <PronomPersonnel> | <NP>
-<PronomPersonnel> ::= "me " | "you " | "him " | "her " | "us " | "them "
+
+	<Sujet> ::= <PronomSujet> | <NP> | <NC>
+
+		<PronomSujet> ::= "I " | "you " | "he " | "she " | "we " | "they "
+
+		<NP> ::= "Magdalene " | "Mickael " | "Joe "
+
+		<NC> ::= <ArticlesConsonne> <AdjectifsConsonne> <Noms1> | <ArticlesVoyelle> <AdjectifsVoyelle> <Noms1>
+		<NC> ::= <ArticlesConsonne>  <NomsConsonne> | <ArticlesVoyelle>  <NomsVoyelle>
+		<NC> ::= <ArticlesGen> <Adjectifs> <Noms2> | <ArticlesGen> <Noms2>
+
+			<ArticlesConsonne> ::= "a " | <ArticlesGen>
+			<ArticlesVoyelle> ::= "an " | <ArticlesGen>
+			<ArticlesGen> ::= "the " | "my " | "your " | "his " | "her " | "our " | "their "
+
+			<Noms1> ::= <NomsVoyelle> | <NomsConsonne>
+			<Noms2> ::= <NomsVoyelle> | <NomsConsonne> | <NomsPluriels>
+			<NomsPluriels> ::= "jeans " | "people "
+			<NomsConsonne> ::= "cat " | "suit " | "pet " | "house " | "chair " | "teaspoon " | "hat "
+			<NomsVoyelle> ::= "elephant " | "armchair " | "atheist " | "ermine " | "omelette " | "umbrella " | "otter "
+			
+			<Adjectifs> ::= <AdjectifsConsonne> | <AdjectifsVoyelle>
+			<AdjectifsConsonne> ::= "wonderful "| "big " | "small " | "boring " | "weird "
+			<AdjectifsVoyelle> ::= "ugly " | "angry " | "average " | "epic "
+			
+	<Verbe> ::= "kicked " | "followed " | "ate " | "played with " | "studied " | "burned " | "kicked " | "shot "
+	
+	<Complement> ::= <NC> | <PronomPersonnel> | <NP>
+	
+		<PronomPersonnel> ::= "me " | "you " | "him " | "her " | "us " | "them "
+
+	<VerbeAvecParticule> ::= "shot " <Complement> "in " <PartieDuCorps>
+	<VerbeAvecParticule> ::= "kicked " <Complement> "in " <PartieDuCorps>
+	<VerbeAvecParticule> ::= "burned " <Complement> <Brule>
+	
+		<Brule> ::= "to the ground " | "to ashes "
+		
+			<PartieDuCorps> ::= "the head " | "the leg " | "the arm " | "the chest "
+			
+
+	<TR> ::= "when " | "as " | "before " | "after " | "therefore " | "because "
