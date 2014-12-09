@@ -231,11 +231,12 @@ public class MainGUI extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         Apercu ap = new Apercu(this);
+        this.jButton2.setEnabled(false);
         ap.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     public Grammar getGram(){
-        Grammar gram = null;
+        Grammar gram = new Grammar();
         if (jTextField2.getText().equals("Fichier de grammaire")){
             JOptionPane.showMessageDialog(jFrame1, "Vous n'avez pas choisi de fichier","Erreur de fichier",JOptionPane.ERROR_MESSAGE);
         }
@@ -248,6 +249,10 @@ public class MainGUI extends javax.swing.JFrame {
             }
         }
         return gram;
+    }
+    
+    public void enableApercuButton(){
+        this.jButton2.setEnabled(true);
     }
     
     /**

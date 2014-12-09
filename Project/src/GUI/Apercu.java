@@ -83,6 +83,7 @@ public class Apercu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.parent.enableApercuButton();
         this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
