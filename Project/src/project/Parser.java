@@ -74,7 +74,6 @@ public class Parser {
                     throw new InvalidFileException();
                 }
                 while ((line = file.readLine()) != null) {
-                    System.out.println(line);
                     String spl = line.split("(?<!\\\\)::=")[0].trim();
                     if (null == this.findProd(spl)) {
                         prods.add(new Production(spl));

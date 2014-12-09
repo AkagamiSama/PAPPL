@@ -45,6 +45,7 @@ public class MainGUI extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jTextField4 = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -113,6 +114,13 @@ public class MainGUI extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setText("Aperçu");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -122,7 +130,10 @@ public class MainGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jButton3)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jButton3)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton2))
                         .addGroup(layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -169,7 +180,9 @@ public class MainGUI extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jButton3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton3)
+                    .addComponent(jButton2))
                 .addContainerGap())
         );
 
@@ -202,28 +215,41 @@ public class MainGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        if (jTextField2.getText().equals("Fichier de grammaire")){
-            JOptionPane.showMessageDialog(jFrame1, "Vous n'avez pas choisi de fichier","Erreur de fichier",JOptionPane.ERROR_MESSAGE);
+        if ((Integer)jSpinner1.getValue() <= 0){
+            JOptionPane.showMessageDialog(jFrame1, "Vous n'avez pas choisi de nombre de fichier à générer","Erreur de quantité",JOptionPane.ERROR_MESSAGE);
         }
         else if (jTextField3.getText().equals("Dossier de génération")){
             JOptionPane.showMessageDialog(jFrame1, "Vous n'avez pas choisi de dossier de destination","Erreur de dossier",JOptionPane.ERROR_MESSAGE);
-        }
-        else if ((Integer)jSpinner1.getValue() <= 0){
-            JOptionPane.showMessageDialog(jFrame1, "Vous n'avez pas choisi de nombre de fichier à générer","Erreur de quantité",JOptionPane.ERROR_MESSAGE);
-        }else{
-            Parser parser = new Parser(jTextField2.getText());
-            try{
-                Grammar gram = parser.grammarReadBNF();
+        } else {
+                Grammar gram = getGram();
                 for (int i = 1; i <= (Integer)jSpinner1.getValue();i++){
                     gram.fileCreator(jTextField3.getText()+"/"+jTextField4.getText()+"_"+i+".txt");
                 }
                 JOptionPane.showMessageDialog(jFrame1, "Génération terminée");
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        Apercu ap = new Apercu(this);
+        ap.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    public Grammar getGram(){
+        Grammar gram = null;
+        if (jTextField2.getText().equals("Fichier de grammaire")){
+            JOptionPane.showMessageDialog(jFrame1, "Vous n'avez pas choisi de fichier","Erreur de fichier",JOptionPane.ERROR_MESSAGE);
+        }
+        else{
+            Parser parser = new Parser(jTextField2.getText());
+            try{
+                gram = parser.grammarReadBNF();
             } catch (InvalidFileException e) {
                 JOptionPane.showMessageDialog(jFrame1, "Le fichier fourni est invalide","Erreur de fichier",JOptionPane.ERROR_MESSAGE);
             }
         }
-    }//GEN-LAST:event_jButton3ActionPerformed
-
+        return gram;
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -260,6 +286,7 @@ public class MainGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JComboBox jComboBox1;
