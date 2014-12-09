@@ -6,6 +6,7 @@
 
 # Package Files #
 README.TXT
+*.xml
 *.jar
 *.war
 *.ear
