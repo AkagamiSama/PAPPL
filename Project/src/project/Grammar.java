@@ -62,13 +62,13 @@ public class Grammar {
     public String ProcessProd(Production p){
         String result = new String();
         
-        if (p.isTerm()){
-          result =  p.getMot();
-        }
-        else{
+        if (!p.isTerm()){
             for (Production p1 : p.getRandomExpr().getMots()){
                 result += ProcessProd(p1);
             }
+        }
+        else{
+            result =  p.getMot();
         }
         
         return result;

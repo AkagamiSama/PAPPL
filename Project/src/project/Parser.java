@@ -115,8 +115,9 @@ public class Parser {
                                 word = word.replaceAll("\\\\<", "<");
                                 word = word.replaceAll("\\\\>", ">");
                                 word = word.replaceAll("\\\\\"", "\"");
-                                if (terminal) {
-                                    if (this.findProd(word) == null) {
+                                if (terminal) {{
+                                    word = word.replaceAll("\\\\n", "\n");
+                                    if (this.findProd(word) == null) 
                                         prods.add(new Production(word));
                                     }
                                     exp.addMot(findProd(word));

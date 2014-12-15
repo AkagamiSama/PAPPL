@@ -1,5 +1,5 @@
 BNF
-<S> ::= <s> "."
+<S> ::= <s> "\n."
 
 <s> ::= <s> <TR> <s> | <Sujet> <Verbe> <Complement> | <Sujet> <VerbeAvecParticule>
 

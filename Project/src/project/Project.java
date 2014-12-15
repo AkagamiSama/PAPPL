@@ -56,5 +56,7 @@ public class Project {
 //          System.out.println(parser.grammarReadBNF().generate());
             MainGUI window = new MainGUI();
             window.setVisible(true);
+//        Production a = new Production("\n.");
+//        System.out.println(a.isTerm());
     }
 }

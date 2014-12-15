@@ -100,7 +100,7 @@ public class Production {
      * @return Renvoie true si le mot est terminal, false sinon.
      */
     public boolean isTerm(){
-        return (expr.size()==0);
+        return (expr.isEmpty());
     }
     /**
      * Divise le poids d'une expression par deux. Utilisé quand une expression est
