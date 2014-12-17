@@ -74,7 +74,7 @@ public class Parser {
                     throw new InvalidFileException();
                 }
                 while ((line = file.readLine()) != null) {
-                    String spl = line.split("(?<!\\\\)::=")[0].trim();
+                    String spl = line.split("::=(?=(((\\\\\")|[^\"])*((?<!\\\\)\")(\\\\\"|[^\"])*((?<!\\\\)\"))*((\\\\\")|[^\"])*$)")[0].trim();
                     if (null == this.findProd(spl)) {
                         prods.add(new Production(spl));
                     }
@@ -95,8 +95,8 @@ public class Parser {
             try (BufferedReader file = new BufferedReader(new FileReader(loc))) {
 
                 boolean terminal;
-                String delimiteursLigne = "::=(?=(((\\\\\")|[^\"])*((?<!\\\\)\")(\\\\\"|[^\"])*((?<!\\\\)\"))*((\\\\\")|[^\"])*$)(?=(((\\\\<)|(\\\\>)|[^<>])*((?<!\\\\)<)((\\\\<)|(\\\\>)|[^<>])*((?<!\\\\)>))*((\\\\<)|(\\\\>)|[^<>])*$)";
-                String delimiteursProduction = "\\|(?=(((\\\\\")|[^\"])*((?<!\\\\)\")(\\\\\"|[^\"])*((?<!\\\\)\"))*((\\\\\")|[^\"])*$)(?=(((\\\\<)|(\\\\>)|[^<>])*((?<!\\\\)<)((\\\\<)|(\\\\>)|[^<>])*((?<!\\\\)>))*((\\\\<)|(\\\\>)|[^<>])*$)";
+                String delimiteursLigne = "::=(?=(((\\\\\")|[^\"])*((?<!\\\\)\")(\\\\\"|[^\"])*((?<!\\\\)\"))*((\\\\\")|[^\"])*$)";
+                String delimiteursProduction = "\\|(?=(((\\\\\")|[^\"])*((?<!\\\\)\")(\\\\\"|[^\"])*((?<!\\\\)\"))*((\\\\\")|[^\"])*$)";
 
                 String delimiteursWords = "(\\s+(?=(((\\\\\")|[^\"])*((?<!\\\\)\")(\\\\\"|[^\"])*((?<!\\\\)\"))*((\\\\\")|[^\"])*$)(?=(((\\\\<)|(\\\\>)|[^<>])*((?<!\\\\)<)((\\\\<)|(\\\\>)|[^<>])*((?<!\\\\)>))*((\\\\<)|(\\\\>)|[^<>])*$)|((?<!\\\\)\"))";
                 file.readLine(); //lit la ligne BNF qui ne doit pas être processée dans la boucle
@@ -115,8 +115,8 @@ public class Parser {
                                 word = word.replaceAll("\\\\<", "<");
                                 word = word.replaceAll("\\\\>", ">");
                                 word = word.replaceAll("\\\\\"", "\"");
-                                if (terminal) {{
-                                    word = word.replaceAll("\\\\n", "\n");
+                                word = word.replaceAll("\\\\n", "\n");
+                                if (terminal) {{                                    
                                     if (this.findProd(word) == null) 
                                         prods.add(new Production(word));
                                     }
