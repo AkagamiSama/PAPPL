@@ -59,18 +59,19 @@ public class Grammar {
      * @param p : La production à traiter.
      * @return Le mot terminal.
      */
-    public String ProcessProd(Production p){
+    public String ProcessProd(Production p) {
         String result = new String();
-        
-        if (!p.isTerm()){
-            for (Production p1 : p.getRandomExpr().getMots()){
-                result += ProcessProd(p1);
+        int nbOccurence = p.getMinOccurence() + Math.round(Math.round((p.getMaxOccurence() - p.getMinOccurence()) * Math.random()));
+
+        for (int i = 0; i < nbOccurence; i++) {
+            if (!p.isTerm()) {
+                for (Production p1 : p.getRandomExpr().getMots()) {
+                    result += this.ProcessProd(p1);
+                }
+            } else {
+                result = p.getMot();
             }
         }
-        else{
-            result =  p.getMot();
-        }
-        
         return result;
     }
     /**

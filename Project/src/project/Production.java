@@ -26,12 +26,22 @@ public class Production {
      */
     private ArrayList<Double> weights;
     /**
+     * Minimum d'occurences lors du traitement.
+     */
+    private int minOccurence;
+    /**
+     * Maximum d'occurences lors du traitement.
+     */
+    private int maxOccurence;
+    /**
      * Constructeur par défaut. Crée une production sans étiquette et sans successeur.
      */
     public Production(){
         mot = "";
         expr = new ArrayList<>();
         weights = new ArrayList<>();
+        maxOccurence = 1;
+        minOccurence = 1;
     }
     /**
      * Constructeur créant une production représentant un mot terminal d'étiquette donnée.
@@ -41,6 +51,21 @@ public class Production {
         mot = txt;
         expr = new ArrayList<>();
         weights = new ArrayList<>();
+        maxOccurence = 1;
+        minOccurence = 1;
+    }
+    /**
+     * Constructeur créant une production représentant un mot terminal d'étiquette donnée et de nombres d'occurences min et max données.
+     * @param txt de typer String : L'étiquette du mot.
+     * @param min de type int : Nombre minimum d'occurences de la production.
+     * @param max de type int : Nombre maximum d'occurences de la production.
+     */
+    public Production(String txt, int min, int max){
+        mot = txt;
+        expr = new ArrayList<>();
+        weights = new ArrayList<>();
+        maxOccurence = min;
+        minOccurence = max;
     }
     /**
      * Getter renvoyant l'étiquette de la production.
@@ -110,12 +135,30 @@ public class Production {
     public void halfWeight(int i){
         weights.set(i, weights.get(i)/2);
     }
+
+    public int getMinOccurence(){
+        return minOccurence;
+    }
+
+
+    public int getMaxOccurence() {
+        return maxOccurence;
+    }
+
+    public void setMinOccurence(int minOccurence) {
+        this.minOccurence = minOccurence;
+    }
+
+    public void setMaxOccurence(int maxOccurence) {
+        this.maxOccurence = maxOccurence;
+    }
+    
     /**
      * Choisit aléatoirement une expression dans la liste des expressions en tenant
      * compte des poids attribués à ces expressions.
      * @return L'expression choisie.
      */
-    public Expression getRandomExpr(){
+    public Expression getRandomExpr() {
         double totalWeight = 0.00d;
         for (double w : weights){
             totalWeight += w;

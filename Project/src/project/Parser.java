@@ -166,7 +166,7 @@ public class Parser {
                     throw new InvalidFileException();
                 }
                 while ((line = file.readLine()) != null) {
-                    String spl = line.split("(?<!\\\\)=")[0].trim();
+                    String spl = line.split("=(?=(((\\\\\")|[^\"])*((?<!\\\\)\")(\\\\\"|[^\"])*((?<!\\\\)\"))*((\\\\\")|[^\"])*$)")[0].trim();
                     if (null == this.findProd(spl)) {
                         prods.add(new Production(spl));
                     }

@@ -1,5 +1,5 @@
 BNF
-<S> ::= <s> "\n."
+<S> ::= <s> "."
 
 <s> ::= <s> <TR> <s> | <Sujet> <Verbe> <Complement> | <Sujet> <VerbeAvecParticule>
 
@@ -7,7 +7,7 @@ BNF
 
 		<PronomSujet> ::= "I " | "you " | "he " | "she " | "we " | "they "
 
-		<NP> ::= "Magdalene " | "Mickael " | "Joe "
+		<NP> ::= "Magdalene " | "Michael " | "Joe " | "Børnene "
 
 		<NC> ::= <ArticlesConsonne> <AdjectifsConsonne> <Noms1> | <ArticlesVoyelle> <AdjectifsVoyelle> <Noms1>
 		<NC> ::= <ArticlesConsonne>  <NomsConsonne> | <ArticlesVoyelle>  <NomsVoyelle>
@@ -27,7 +27,7 @@ BNF
 			<AdjectifsConsonne> ::= "wonderful "| "big " | "small " | "boring " | "weird "
 			<AdjectifsVoyelle> ::= "ugly " | "angry " | "average " | "epic "
 			
-	<Verbe> ::= "kicked " | "followed " | "ate " | "played with " | "studied " | "burned " | "kicked " | "shot "
+	<Verbe> ::= "kicked " | "followed " | "ate " | "played with " | "studied " | "burned " | "tickled " | "shot "
 	
 	<Complement> ::= <NC> | <PronomPersonnel> | <NP>
 	
