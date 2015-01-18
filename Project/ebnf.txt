@@ -1,0 +1,3 @@
+EBNF
+S = {a}
+a = "pute " | "chienne "
