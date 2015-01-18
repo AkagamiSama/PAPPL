@@ -116,13 +116,12 @@ public class Parser {
                                 word = word.replaceAll("\\\\>", ">");
                                 word = word.replaceAll("\\\\\"", "\"");
                                 word = word.replaceAll("\\\\n", "\n");
-                                if (terminal) {{                                    
-                                    if (this.findProd(word) == null) 
+                                if (terminal) {                                    
+                                    if (this.findProd(word) == null){
                                         prods.add(new Production(word));
                                     }
                                     exp.addMot(findProd(word));
-                                }else
-                                {
+                                } else{
                                     if (this.findProd(word) == null) {            
                                         throw new InvalidFileException();
                                     }
@@ -151,11 +150,20 @@ public class Parser {
         this.grammarGetNonTerminalsBNF();
         this.grammarCompleteBNF();
 
-        return (new Grammar(prods.get(0)));
+        return new Grammar(prods.get(0));
     }
     
     
     //Méthodes pour l'EBNF. En construction.
+    
+    public Grammar grammarReadEBNF() throws InvalidFileException {
+
+        this.grammarGetNonTerminalsEBNF();
+        this.grammarCompleteEBNF();
+
+        return new Grammar(prods.get(0));
+    }
+        
     public void grammarGetNonTerminalsEBNF() {
         String line; //Servira à stocker la ligne en cours de traitement.
         try {
@@ -176,4 +184,92 @@ public class Parser {
             System.out.println("EBNF file should start with \"EBNF\"");
         }
     }    
+    
+    public void grammarCompleteEBNF() throws InvalidFileException {
+        String line; //Servira à stocker la ligne en cours de traitement.
+        try {
+            try (BufferedReader file = new BufferedReader(new FileReader(loc))) {
+
+                boolean terminal;
+                String delimiteursLigne = "=(?=(((\\\\\")|[^\"])*((?<!\\\\)\")(\\\\\"|[^\"])*((?<!\\\\)\"))*((\\\\\")|[^\"])*$)";
+                String delimiteursExpression = "\\|(?=(((\\\\\")|[^\"])*((?<!\\\\)\")(\\\\\"|[^\"])*((?<!\\\\)\"))*((\\\\\")|[^\"])*$)(?=(((\\\\\\{)|[^\\{])*((?<!\\\\)\\{)(\\\\\\{|[^\\{])*((?<!\\\\)\\}))*((\\\\\\{)|[^\\}])*$)";
+                file.readLine(); //lit la ligne EBNF qui ne doit pas être processée dans la boucle
+                
+                while ((line = file.readLine()) != null) {
+                    if (line.split(delimiteursLigne).length > 1){
+                    //Permet de gérer les lignes vides
+                    //Utile si on veut que le fichier de grammaire ressemble à quelque chose
+                        String id = line.split(delimiteursLigne)[0].trim();
+                        String spl = line.split(delimiteursLigne)[1];
+                        String[]  expressions = spl.split(delimiteursExpression);
+                        for (String expr : expressions){
+                            this.findProd(id).addExpr(this.ebnfReadExpr(expr));
+                        }
+                      }
+                  }
+              }
+          }catch (IOException e) {
+              System.out.println(e.getLocalizedMessage());
+          }
+    }
+    
+    public Expression ebnfReadExpr(String expr) throws InvalidFileException{
+        Expression result = new Expression();
+        String delimiteursWords = ",(?=(((\\\\\")|[^\"])*((?<!\\\\)\")(\\\\\"|[^\"])*((?<!\\\\)\"))*((\\\\\")|[^\"])*$)(?=(((\\\\\\{)|[^\\{])*((?<!\\\\)\\{)(\\\\\\{|[^\\{])*((?<!\\\\)\\}))*((\\\\\\{)|[^\\}])*$)";
+        String delimiteursExpression = "\\|(?=(((\\\\\")|[^\"])*((?<!\\\\)\")(\\\\\"|[^\"])*((?<!\\\\)\"))*((\\\\\")|[^\"])*$)(?=(((\\\\\\{)|[^\\{])*((?<!\\\\)\\{)(\\\\\\{|[^\\{])*((?<!\\\\)\\}))*((\\\\\\{)|[^\\}])*$)";
+        String[] words = expr.split(delimiteursWords);
+        for (String word : words){
+            if(word.trim().startsWith("\"")){
+                word = word.trim().replaceAll("(?<!\\\\)\"", "");
+                if (this.findProd(word) == null) {
+                    prods.add(new Production(word));
+                }
+                result.addMot(findProd(word));
+            } else if (word.trim().startsWith("{") && word.trim().endsWith("}")){
+                Production p = new Production("",0,Production.MAX_RANDOM);
+                word = word.trim().replaceFirst("(?<!\\\\)\\{", "");
+                word = word.substring(0, word.trim().length()-1);                
+                String[] wordexprs = word.split(delimiteursExpression);
+                for(String wordexpr : wordexprs){
+                    p.addExpr(ebnfReadExpr(wordexpr));
+                }
+                result.addMot(p);
+            } else if (word.trim().startsWith("{") && word.trim().endsWith(")")){ //regarde là : il devrait passer par ici pour {"prout"} mais ne le fait pas et je vois pas pourquoi
+                String nbOccurString = word.trim().split("\\((?=(((\\\\\\{)|[^\\{])*((?<!\\\\)\\{)(\\\\\\{|[^\\{])*((?<!\\\\)\\}))*((\\\\\\{)|[^\\{])*$)")[1]; //string vide à remplacer par parenthese fermante pas entre {}
+                nbOccurString = nbOccurString.substring(0, nbOccurString.length()-1);
+                String[] nbOccur = nbOccurString.split("-");
+                Production p = new Production("",Integer.parseInt(nbOccur[0]),Integer.parseInt(nbOccur[1]));
+                word = word.split("\\((?=(((\\\\\\{)|[^\\{])*((?<!\\\\)\\{)(\\\\\\{|[^\\{])*((?<!\\\\)\\}))*((\\\\\\{)|[^\\{])*$)")[0].trim().replaceFirst("(?<!\\\\)\\{", ""); //idem
+                word = word.substring(0, word.trim().length()-1);
+                String[] wordexprs = word.split(delimiteursExpression);
+                for(String wordexpr : wordexprs){
+                    p.addExpr(ebnfReadExpr(wordexpr));
+                }
+                result.addMot(p);
+            } else{
+                word = word.trim();
+                if (this.findProd(word) == null) {
+                    System.out.print("error " + word);
+                    throw new InvalidFileException();
+                }
+                result.addMot(findProd(word));
+            }
+        }
+        return result;
+    }
+    
+    public Grammar grammarRead() throws InvalidFileException {
+        try (BufferedReader file = new BufferedReader(new FileReader(loc))){
+            if("BNF".equals(file.readLine())){
+                this.grammarGetNonTerminalsBNF();
+                this.grammarCompleteBNF();
+            }else{
+                this.grammarGetNonTerminalsEBNF();
+                this.grammarCompleteEBNF();
+            }
+        }catch(IOException e){
+            System.out.println(e.getLocalizedMessage());
+        }
+        return new Grammar(prods.get(0));
+    }
 }

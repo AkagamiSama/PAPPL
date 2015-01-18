@@ -36,6 +36,9 @@ public class Production {
     /**
      * Constructeur par défaut. Crée une production sans étiquette et sans successeur.
      */
+    
+    public final static int MAX_RANDOM = 100;
+            
     public Production(){
         mot = "";
         expr = new ArrayList<>();
@@ -125,7 +128,7 @@ public class Production {
      * @return Renvoie true si le mot est terminal, false sinon.
      */
     public boolean isTerm(){
-        return (expr.isEmpty());
+        return expr.isEmpty();
     }
     /**
      * Divise le poids d'une expression par deux. Utilisé quand une expression est
@@ -189,4 +192,7 @@ public class Production {
         return false;
     }
     
+    public boolean equals(Production p){
+    return this.mot.equals(p.getMot()) && this.minOccurence == p.getMinOccurence() && this.maxOccurence == p.getMaxOccurence();
+    }
 }

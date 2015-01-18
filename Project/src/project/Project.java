@@ -5,7 +5,7 @@
  */
 package project;
 
-import GUI.MainGUI;
+import gui.MainGUI;
 
 /**
  *

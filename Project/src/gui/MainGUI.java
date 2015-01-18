@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package GUI;
+package gui;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -217,8 +217,7 @@ public class MainGUI extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         if ((Integer)jSpinner1.getValue() <= 0){
             JOptionPane.showMessageDialog(jFrame1, "Vous n'avez pas choisi de nombre de fichier à générer","Erreur de quantité",JOptionPane.ERROR_MESSAGE);
-        }
-        else if (jTextField3.getText().equals("Dossier de génération")){
+        } else if ("Dossier de génération".equals(jTextField3.getText())){
             JOptionPane.showMessageDialog(jFrame1, "Vous n'avez pas choisi de dossier de destination","Erreur de dossier",JOptionPane.ERROR_MESSAGE);
         } else {
                 Grammar gram = getGram();
@@ -237,13 +236,12 @@ public class MainGUI extends javax.swing.JFrame {
 
     public Grammar getGram(){
         Grammar gram = new Grammar();
-        if (jTextField2.getText().equals("Fichier de grammaire")){
+        if ("Fichier de grammaire".equals(jTextField2.getText())){
             JOptionPane.showMessageDialog(jFrame1, "Vous n'avez pas choisi de fichier","Erreur de fichier",JOptionPane.ERROR_MESSAGE);
-        }
-        else{
+        } else{
             Parser parser = new Parser(jTextField2.getText());
             try{
-                gram = parser.grammarReadBNF();
+                gram = parser.grammarRead();
             } catch (InvalidFileException e) {
                 JOptionPane.showMessageDialog(jFrame1, "Le fichier fourni est invalide","Erreur de fichier",JOptionPane.ERROR_MESSAGE);
             }
@@ -258,7 +256,7 @@ public class MainGUI extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.

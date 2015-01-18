@@ -49,7 +49,7 @@ public class Grammar {
      * @return La phrase générée par la grammaire.
      */
     public String generate(){
-        String result = this.ProcessProd(prod);
+        String result = this.processProd(prod);
         this.resetWeights();
         return result;
     }
@@ -59,14 +59,14 @@ public class Grammar {
      * @param p : La production à traiter.
      * @return Le mot terminal.
      */
-    public String ProcessProd(Production p) {
+    public String processProd(Production p) {
         String result = new String();
         int nbOccurence = p.getMinOccurence() + Math.round(Math.round((p.getMaxOccurence() - p.getMinOccurence()) * Math.random()));
 
         for (int i = 0; i < nbOccurence; i++) {
             if (!p.isTerm()) {
                 for (Production p1 : p.getRandomExpr().getMots()) {
-                    result += this.ProcessProd(p1);
+                    result += this.processProd(p1);
                 }
             } else {
                 result = p.getMot();
@@ -102,9 +102,7 @@ public class Grammar {
         for (Double d : p.getWeights()){
             one = (one && d == 1.00d);
         }
-        if(one){
-            
-        }else{
+        if(!one){
             for(int i = 0; i < p.getWeights().size(); i++){
                 p.getWeights().set(i,1.00d);
                 }
@@ -113,6 +111,7 @@ public class Grammar {
                     resetProdWeights(p1);
                 }
             }
+            
         }
     }
     
