@@ -164,9 +164,8 @@ public class Parser {
         return new Grammar(prods.get(0));
     }
         
-    public void grammarGetNonTerminalsEBNF() {
+    public void grammarGetNonTerminalsEBNF() throws InvalidFileException{
         String line; //Servira à stocker la ligne en cours de traitement.
-        try {
             try (BufferedReader file = new BufferedReader(new FileReader(loc))) {
                 line = file.readLine();
                 
@@ -179,9 +178,8 @@ public class Parser {
                         prods.add(new Production(spl));
                     }
                 }
-            }
-        } catch (IOException | InvalidFileException e) {
-            System.out.println("EBNF file should start with \"EBNF\"");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
         }
     }    
     

@@ -242,11 +242,15 @@ public class MainGUI extends javax.swing.JFrame {
         } else if ("".equals(jTextField5.getText())){
             JOptionPane.showMessageDialog(jFrame1, "Vous n'avez pas choisi d'extension de fichier","Erreur d'extension",JOptionPane.ERROR_MESSAGE);
         } else {
+            try{
                 Grammar gram = getGram();
                 for (int i = 1; i <= (Integer)jSpinner1.getValue();i++){
                     gram.fileCreator(jTextField3.getText()+"/"+jTextField4.getText()+"_"+i+"."+jTextField5.getText());
                 }
                 JOptionPane.showMessageDialog(jFrame1, "Génération terminée");
+            } catch (InvalidFileException e) {
+                JOptionPane.showMessageDialog(jFrame1, "Le fichier fourni est invalide","Erreur de fichier",JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -260,17 +264,13 @@ public class MainGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField5ActionPerformed
 
-    public Grammar getGram(){
+    public Grammar getGram() throws InvalidFileException {
         Grammar gram = new Grammar();
         if ("Fichier de grammaire".equals(jTextField2.getText())){
             JOptionPane.showMessageDialog(jFrame1, "Vous n'avez pas choisi de fichier","Erreur de fichier",JOptionPane.ERROR_MESSAGE);
         } else{
             Parser parser = new Parser(jTextField2.getText());
-            try{
-                gram = parser.grammarRead();
-            } catch (InvalidFileException e) {
-                JOptionPane.showMessageDialog(jFrame1, "Le fichier fourni est invalide","Erreur de fichier",JOptionPane.ERROR_MESSAGE);
-            }
+            gram = parser.grammarRead();
         }
         return gram;
     }
