@@ -2,6 +2,8 @@ package gui;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.JOptionPane;
+import project.*;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -98,7 +100,11 @@ public class Apercu extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        jTextArea1.setText(this.parent.getGram().generate());
+        try{
+            jTextArea1.setText(this.parent.getGram().generate());
+        } catch (InvalidFileException e){
+            JOptionPane.showMessageDialog(this, "Le fichier fourni est invalide","Erreur de fichier",JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     
