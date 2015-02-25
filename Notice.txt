@@ -1,0 +1,45 @@
+PAPPL – LAURENT VERDIER
+Structure des fichiers de grammaire
+
+
+Fichiers BNF :
+
+Le fichier doit commencer par une ligne ne comportant que « BNF » (sans guillemets).
+Un mot non terminal est représenté par : <Non-Terminal>
+Un mot terminal est représenté par : "Terminal"
+Une règle de remplacement est définie par : <Non-Terminal> ::= Expression
+où Expression est une suite de mots, terminaux ou non. Les règles sont écrites sur une ligne.
+Un mot non terminal peut être remplacé par plusieurs expressions différentes. Pour formaliser cela,
+on utilise le caractère " | " pour séparer les différentes expressions. Il est également possible de
+définir ces différentes règles en plusieurs fois.
+
+Exemple de grammaire fonctionnelle : 
+
+BNF
+<S>  ::= <NP> <VP>
+<NP>    ::= <Det> <N>
+<NP> ::= "I " | "she " | "he " | "Joe "
+<VP>    ::= <V> <NP> | <VP>
+<Det> ::= "a " | "the " | "my " | "his "
+<N> ::= "elephant " | "cat " | "jeans " | "suit "
+<V> ::= "kicked " | "followed " | "shot "
+Fichiers EBNF :
+
+Le fichier doit commencer par une ligne ne comportant que « EBNF » (sans guillemets).
+Un mot non terminal est représenté par : Non-Terminal
+Un mot terminal est représenté par : "Terminal"
+Une règle de remplacement est définie par : Non-Terminal = Expression
+où Expression est une suite de mots, terminaux ou non séparés par des virgules.
+La répétition est représentée par : {Expression}
+Le nombre d’occurrences peut être précisé : {Expression}(min-max)
+Si le nombre d'occurences souhaité n'est pas précisé on considère que le min = 0 et max = 100. ce maximum par défaut peur être modifié en modifiant la valeur de la constante MAX_RANDOM dans la classe Production.
+Un mot non terminal peut être remplacé par plusieurs expressions différentes. Pour formaliser cela,
+on utilise le caractère " | " pour séparer les différentes expressions. Il est également possible de
+définir ces différentes règles en plusieurs fois.
+
+Exemple de grammaire fonctionnelle :
+
+EBNF
+S = {ch}(1-3), " ", {nb} , ",", {nb}, {ch}(1-3)
+nb = {ch}(3-3), " "
+ch = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
