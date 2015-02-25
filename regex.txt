@@ -1,4 +1,0 @@
-#regex java pour reconnaître une ligne d'un fichier de grammaire.
-#Si toutes les lignes sont reconnues par la regex, alors le fichier est valide.
-#Truc intéressant à creuser : essayer de mixer ça avec des tokenizer histoire que ce soit moins relou.
-<[a-zA-Z]+>\s*::=(\s*(((<[a-zA-Z]+>|"[a-zA-Z]+")\s*)+\|)|\s*(((<[a-zA-Z]+>|"[a-zA-Z]+")\s*)+))+
